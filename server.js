@@ -41,7 +41,7 @@ app.post('/register', (req, res) => {
     var dbUserEmail = require('./db/user.json').email
 
     if (dbUserEmail === req.body.email) {
-      res.sendStatus(400)
+      res.status(400).json({ error: 'user already Exist!' })
     } else {
       fs.writeFile('./db/user.json', data, err => {
         if (err) {
@@ -58,7 +58,7 @@ app.post('/register', (req, res) => {
       })
     }
   } else {
-    res.sendStatus(400)
+    res.status(400)
   }
 })
 
@@ -78,12 +78,12 @@ app.post('/login', (req, res) => {
       name: userInfo.name
     })
   } else {
-    res.sendStatus(400)
+    res.status(401).json({ error: 'Invalid Login, Please try again.' })
   }
 })
 
 // MIDDLEWARE
-function verifyToken (req, res, next) {
+function verifyToken(req, res, next) {
   const bearerHeader = req.headers['authorization']
 
   if (typeof bearerHeader !== 'undefined') {

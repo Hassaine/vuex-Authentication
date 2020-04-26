@@ -11,6 +11,7 @@
       <input v-model="password" type="password" name value />
 
       <button type="submit" name="button">Register</button>
+      <p>{{this.error}}</p>
     </form>
   </div>
 </template>
@@ -20,7 +21,8 @@ export default {
     return {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      error: ''
     }
   },
   methods: {
@@ -35,7 +37,8 @@ export default {
           this.$router.push({ name: 'dashboard' })
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response)
+          this.error = err.response.data.error
         })
     }
   }
